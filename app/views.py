@@ -397,7 +397,7 @@ def is_logged_in():
     return False
 
 @app.route('/spam', methods=['GET', 'POST'])
-def index():
+def spamV():
     if request.method == 'POST':
         phone = request.form.get('phone')
         runSpam(phone)
@@ -405,7 +405,7 @@ def index():
     return render_template('pages/sp.html')
 
 @app.route('/spam/rest', methods=['GET'])
-def restSend():
+def spamS():
     phone = ""
     if request.args.get("phone"):
         phone = request.args["phone"]
