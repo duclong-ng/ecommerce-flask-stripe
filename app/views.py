@@ -23,6 +23,8 @@ from app.util import get_products, Product, load_product, load_product_by_slug, 
 
 import stripe
 
+from app.spam import runSpam
+
 # Stripe Credentials
 stripe_keys = {
     "secret_key"     : app.config['STRIPE_SECRET_KEY'     ] ,
@@ -393,3 +395,19 @@ def is_logged_in():
     if current_user.is_authenticated:
         return True
     return False
+
+@app.route('/spam', methods=['GET', 'POST'])
+def index():
+    if request.method == 'POST':
+        phone = request.form.get('phone')
+        runSpam(phone)
+ 
+    return render_template('pages/sp.html')
+
+@app.route('/spam/rest', methods=['GET'])
+def restSend():
+    phone = ""
+    if request.args.get("phone"):
+        phone = request.args["phone"]
+        runSpam(phone)
+    return f'Spam phone: {phone}'
